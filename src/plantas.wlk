@@ -27,6 +27,10 @@ class Menta inherits Planta {
 	
 }
 
+class Hierbabuena inherits Menta {
+	override method espacioOcupado() { return super() * 2 }
+}
+
 class Soja inherits Planta {
 
 	override method horasToleranciaSol() {
@@ -39,6 +43,9 @@ class Soja inherits Planta {
 
 }
 
+class SojaTransgenica inherits Soja {
+	override method daNuevasSemillas() { return false }
+}
 class Quinoa inherits Planta {
 
 	var horasToleranciaSol

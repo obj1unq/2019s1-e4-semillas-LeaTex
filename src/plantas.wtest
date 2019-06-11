@@ -8,7 +8,7 @@ describe "tests sobre las plantas" {
 		assert.equals(menta.horasToleranciaSol(), 6)
 		assert.notThat(menta.esFuerte())
 		assert.that(menta.daNuevasSemillas())
-		assert.equals(menta.espacioOcupado(), 3)		
+		assert.equals(menta.espacioOcupado(), 3)
 	}
 
 	test "la menta es débil, y si tiene 0.3 m de altura, no da semillas y ocupa un espacio de 0.9 m2" {
@@ -20,6 +20,24 @@ describe "tests sobre las plantas" {
 		assert.equals(menta.espacioOcupado(), 0.9)		
 	}
 
+	test "la hierbabuena es débil, y si tiene 1 metro de altura, debería dar semillas y ocupar un espacio de 6 m2" {
+		var hierbabuena = new Hierbabuena(2001, 1)
+		
+		assert.equals(hierbabuena.horasToleranciaSol(), 6)
+		assert.notThat(hierbabuena.esFuerte())
+		assert.that(hierbabuena.daNuevasSemillas())
+		assert.equals(hierbabuena.espacioOcupado(), 6)
+	}
+
+	test "la hierbabuena es débil, y si tiene 0.3 m de altura, no da semillas y ocupa un espacio de 1.8 m2" {
+		var hierbabuena = new Hierbabuena(2001, 0.3)
+		
+		assert.equals(hierbabuena.horasToleranciaSol(), 6)
+		assert.notThat(hierbabuena.esFuerte())
+		assert.notThat(hierbabuena.daNuevasSemillas())
+		assert.equals(hierbabuena.espacioOcupado(), 1.8)		
+	}
+
 	test "la soja es débil, y si tiene de 0.6 m y semilla de 2009, su tolerancia al sol son 7 horas, no da semillas y ocupa 0.3 m2." {
 		var soja = new Soja(2009, 0.6)
 		
@@ -29,13 +47,31 @@ describe "tests sobre las plantas" {
 		assert.equals(soja.espacioOcupado(), 0.3)
 	}
 
-	test "la soja es débil, y si tienee 3 m y semillas de 2015, su tolerancia al sol son 9 horas, no da semillas y ocupa 1.5 m2." {
+	test "la soja es débil, y si tienee 3 m y semillas de 2015, su tolerancia al sol son 9 horas, da semillas y ocupa 1.5 m2." {
 		var soja = new Soja(2015, 3)
 		
 		assert.equals(soja.horasToleranciaSol(), 9)
 		assert.notThat(soja.esFuerte())
 		assert.that(soja.daNuevasSemillas())
 		assert.equals(soja.espacioOcupado(), 1.5)
+	}
+
+	test "la soja transgénica es débil, y si tiene de 0.6 m y semilla de 2009, su tolerancia al sol son 7 horas, no da semillas y ocupa 0.3 m2." {
+		var sojaTrans = new SojaTransgenica(2009, 0.6)
+		
+		assert.equals(sojaTrans.horasToleranciaSol(), 7)
+		assert.notThat(sojaTrans.esFuerte())
+		assert.notThat(sojaTrans.daNuevasSemillas())
+		assert.equals(sojaTrans.espacioOcupado(), 0.3)
+	}
+
+	test "la soja transgénica es débil, y si tienee 3 m y semillas de 2015, su tolerancia al sol son 9 horas, no da semillas y ocupa 1.5 m2." {
+		var sojaTrans = new SojaTransgenica(2015, 3)
+		
+		assert.equals(sojaTrans.horasToleranciaSol(), 9)
+		assert.notThat(sojaTrans.esFuerte())
+		assert.notThat(sojaTrans.daNuevasSemillas())
+		assert.equals(sojaTrans.espacioOcupado(), 1.5)
 	}
 
 	test "si una quinoa tolera 12 hs de sol y su semilla de origen es del 2010, se trata de una planta fuerte que da semillas." {
