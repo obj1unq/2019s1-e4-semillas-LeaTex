@@ -1,0 +1,67 @@
+import plantas.*
+
+describe "tests sobre las plantas" {
+
+	test "la menta es débil, y si tiene 1 metro de altura, debería dar semillas y ocupar un espacio de 3 m2" {
+		var menta = new Menta(2001, 1)
+		
+		assert.equals(menta.horasToleranciaSol(), 6)
+		assert.notThat(menta.esFuerte())
+		assert.that(menta.daNuevasSemillas())
+		assert.equals(menta.espacioOcupado(), 3)		
+	}
+
+	test "la menta es débil, y si tiene 0.3 m de altura, no da semillas y ocupa un espacio de 0.9 m2" {
+		var menta = new Menta(2001, 0.3)
+		
+		assert.equals(menta.horasToleranciaSol(), 6)
+		assert.notThat(menta.esFuerte())
+		assert.notThat(menta.daNuevasSemillas())
+		assert.equals(menta.espacioOcupado(), 0.9)		
+	}
+
+	test "la soja es débil, y si tiene de 0.6 m y semilla de 2009, su tolerancia al sol son 7 horas, no da semillas y ocupa 0.3 m2." {
+		var soja = new Soja(2009, 0.6)
+		
+		assert.equals(soja.horasToleranciaSol(), 7)
+		assert.notThat(soja.esFuerte())
+		assert.notThat(soja.daNuevasSemillas())
+		assert.equals(soja.espacioOcupado(), 0.3)
+	}
+
+	test "la soja es débil, y si tienee 3 m y semillas de 2015, su tolerancia al sol son 9 horas, no da semillas y ocupa 1.5 m2." {
+		var soja = new Soja(2015, 3)
+		
+		assert.equals(soja.horasToleranciaSol(), 9)
+		assert.notThat(soja.esFuerte())
+		assert.that(soja.daNuevasSemillas())
+		assert.equals(soja.espacioOcupado(), 1.5)
+	}
+
+	test "si una quinoa tolera 12 hs de sol y su semilla de origen es del 2010, se trata de una planta fuerte que da semillas." {
+		var quinoa = new Quinoa(2010, 1, 12)
+		
+		assert.equals(quinoa.horasToleranciaSol(), 12)
+		assert.that(quinoa.esFuerte())
+		assert.that(quinoa.daNuevasSemillas())
+		assert.equals(quinoa.espacioOcupado(), 0.5)
+	}
+
+	test "si una quinoa tolera 9 hs de sol y su semilla de origen es del 2001, se trata de una planta débil que da semillas." {
+		var quinoa = new Quinoa(2001, 1, 9)
+		
+		assert.equals(quinoa.horasToleranciaSol(), 9)
+		assert.notThat(quinoa.esFuerte())
+		assert.that(quinoa.daNuevasSemillas())
+		assert.equals(quinoa.espacioOcupado(), 0.5)
+	}
+
+	test "si una quinoa tolera 5 hs de sol y su semilla de origen es del 2015, se trata de una planta débil que no da semillas." {
+		var quinoa = new Quinoa(2015, 1, 5)
+		
+		assert.equals(quinoa.horasToleranciaSol(), 5)
+		assert.notThat(quinoa.esFuerte())
+		assert.notThat(quinoa.daNuevasSemillas())
+		assert.equals(quinoa.espacioOcupado(), 0.5)
+	}
+}
