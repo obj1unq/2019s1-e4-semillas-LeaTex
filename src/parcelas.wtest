@@ -1,0 +1,102 @@
+import plantas.*
+import parcelas.*
+
+describe "tests sobre las parcelas" {
+
+	test "parcela vacía de 10x20 acepta 86 plantas como máximo y no tiene complicaciones" {
+		var parcela = new Parcela(10, 20, 16)
+		
+		assert.equals(parcela.superficie(), 200)
+		assert.equals(parcela.cantidadMaximaPlantasPermitida(), 200 / 3 + 20)
+		assert.notThat(parcela.tieneComplicaciones())
+		assert.that(parcela.plantas().isEmpty())
+	}
+
+	test "parcela vacía de 20x10 acepta 40 plantas como máximo y no tiene complicaciones" {
+		var parcela = new Parcela(20, 10, 16)
+		
+		assert.equals(parcela.superficie(), 200)
+		assert.equals(parcela.cantidadMaximaPlantasPermitida(), 200 / 5)
+		assert.notThat(parcela.tieneComplicaciones())
+		assert.that(parcela.plantas().isEmpty())
+	}
+	
+	test "no se puede plantar más que el máximo permitido por la parcela" {
+		var parcela = new Parcela(1, 1, 1)
+		var planta = new Menta(1,1)
+
+		assert.equals(parcela.cantidadMaximaPlantasPermitida(), 1 / 3 + 1)
+		
+		parcela.plantar(planta)
+		assert.throwsExceptionWithMessage("Se alcanzó la cantidad máxima de plantas permitidas."
+				, { parcela.plantar(null) })
+		assert.equals(parcela.plantas().size(), 1)
+	
+	}
+
+	test "no se puede plantar si la parcela recibe al menos 2 horas más de sol que las que tolera la planta" {
+		var parcela = new Parcela(1, 1, 8)
+		var planta = new Menta(1,1)
+		
+		assert.throwsExceptionWithMessage("La parcela recibe al menos 2 horas más de sol que las toleradas por la planta."
+				, { parcela.plantar(planta) })
+		assert.that(parcela.plantas().isEmpty())
+	
+	}
+
+	test "una parcela con menta que recibe 7 hs diarias tiene complicaciones" {
+		var parcela = new Parcela(1, 1, 7)
+		var planta = new Menta(1,1)
+		
+		parcela.plantar(planta)
+		assert.that(parcela.tieneComplicaciones())
+		assert.that(parcela.plantas().contains(planta))
+	}
+	
+	test "una parcela de 9 m2 es ideal para la menta y la hierbabuena, pero una de 4 m2 no" {
+		var parcelaGrande = new Parcela(3, 3, 7)
+		var parcelaChica = new Parcela(2, 2, 7)
+		var planta
+
+		planta = new Menta(1,1)
+		assert.that(parcelaGrande.esIdealParaPlanta(planta))
+		assert.notThat(parcelaChica.esIdealParaPlanta(planta))
+
+		planta = new Hierbabuena(1,1)
+		assert.that(parcelaGrande.esIdealParaPlanta(planta))
+		assert.notThat(parcelaChica.esIdealParaPlanta(planta))		
+	}
+
+	test "una parcela vacía o con plantas bajas es ideal para la quinoa, pero una con plantas altas no" {
+		var parcela = new Parcela(10, 10, 3)
+		var plantaBaja = new Menta(1,1)
+		var plantaAlta = new Menta(1, 10)
+		var quinoa = new Quinoa(1,1,10)
+		
+		assert.that(parcela.esIdealParaPlanta(quinoa))
+		
+		parcela.plantar(plantaBaja)
+		assert.that(parcela.esIdealParaPlanta(quinoa))
+		
+		parcela.plantar(plantaAlta)
+		assert.notThat(parcela.esIdealParaPlanta(quinoa))
+	}
+
+	test "una parcela que recibe 6 hs diarias de sol es ideal para una soja de 0.4 m de alto pero no para una soja de 0.7 m" {
+		var parcela = new Parcela(10, 10, 6)
+		var sojaBaja = new Soja(2000, 0.4)
+		var sojaAlta = new Soja(2000, 0.7)
+		
+		assert.that(parcela.esIdealParaPlanta(sojaBaja))
+		assert.notThat(parcela.esIdealParaPlanta(sojaAlta))
+	}
+
+	test "una parcela con capacidad máxima de 1 es ideal para la soja transgénica, pero una con más capacidad no" {
+		var parcelaGrande = new Parcela(3, 3, 7)
+		var parcelaChica = new Parcela(1, 1, 7)
+		var planta = new SojaTransgenica(2000, 0.5)
+		
+		assert.that(parcelaChica.esIdealParaPlanta(planta))
+		assert.notThat(parcelaGrande.esIdealParaPlanta(planta))
+	}
+}

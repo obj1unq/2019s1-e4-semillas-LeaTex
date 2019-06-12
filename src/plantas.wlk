@@ -1,3 +1,5 @@
+import plantas.*
+
 class Planta {
 	var anioObtencionSemilla
 	var altura
@@ -7,6 +9,7 @@ class Planta {
 		altura = _altura
 	}
 
+	method altura() { return altura }
 	method esFuerte() {
 		return self.horasToleranciaSol() > 10
 	}
@@ -17,6 +20,8 @@ class Planta {
 	method espacioOcupado()
 	method condicionDaNuevasSemillas()
 	
+	method esParcelaIdeal(unaParcela)
+	
 }
 
 class Menta inherits Planta {
@@ -24,7 +29,7 @@ class Menta inherits Planta {
 	override method horasToleranciaSol() { return 6 }
 	override method espacioOcupado() { return altura * 3 }
 	override method condicionDaNuevasSemillas() { return altura > 0.4 }
-	
+	override method esParcelaIdeal(unaParcela) { return unaParcela.superficie() > 6 }
 }
 
 class Hierbabuena inherits Menta {
@@ -40,11 +45,12 @@ class Soja inherits Planta {
 	}
 	override method espacioOcupado() { return altura / 2 }
 	override method condicionDaNuevasSemillas() { return anioObtencionSemilla > 2007 and altura > 1 }
-
+	override method esParcelaIdeal(unaParcela) { return unaParcela.horasSolDiarias() == self.horasToleranciaSol() }
 }
 
 class SojaTransgenica inherits Soja {
 	override method daNuevasSemillas() { return false }
+	override method esParcelaIdeal(unaParcela) { return unaParcela.cantidadMaximaPlantasPermitida() < 2 }
 }
 class Quinoa inherits Planta {
 
@@ -56,5 +62,5 @@ class Quinoa inherits Planta {
 	override method horasToleranciaSol() { return horasToleranciaSol }
 	override method espacioOcupado() { return 0.5 }
 	override method condicionDaNuevasSemillas() { return anioObtencionSemilla < 2005 }
-	
+	override method esParcelaIdeal(unaParcela) { return not(unaParcela.plantas().any({p => p.altura() > 1.5})) }
 }
