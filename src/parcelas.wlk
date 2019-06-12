@@ -34,4 +34,17 @@ class Parcela {
 	method esIdealParaPlanta(unaPlanta) {
 		return unaPlanta.esParcelaIdeal(self)
 	}
+	method seAsociaBienPlanta(unaPlanta) { return false }
+}
+
+class ParcelaEcologica inherits Parcela {
+	override method seAsociaBienPlanta(unaPlanta) {
+		return not(self.tieneComplicaciones()) and self.esIdealParaPlanta(unaPlanta)
+	}
+}
+
+class ParcelaIndustrial inherits Parcela {
+	override method seAsociaBienPlanta(unaPlanta) {
+		return (self.plantas().size() <= 2) and unaPlanta.esFuerte()
+	}
 }

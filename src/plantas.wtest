@@ -1,4 +1,5 @@
 import plantas.*
+import parcelas.*
 
 describe "tests sobre las plantas" {
 
@@ -99,5 +100,43 @@ describe "tests sobre las plantas" {
 		assert.notThat(quinoa.esFuerte())
 		assert.notThat(quinoa.daNuevasSemillas())
 		assert.equals(quinoa.espacioOcupado(), 0.5)
+	}
+
+	test "una planta débil no se asocia bien a una parcela industrial" {
+		var parcela = new ParcelaIndustrial(10, 10, 5)
+		var plantaDebil
+		
+		plantaDebil = new Menta(2001, 1)
+		assert.notThat(plantaDebil.seAsociaBienEnParcela(parcela))
+	
+	 	plantaDebil = new Hierbabuena(2001, 1)
+		assert.notThat(plantaDebil.seAsociaBienEnParcela(parcela))
+
+		plantaDebil = new Soja(2001, 1)
+		assert.notThat(plantaDebil.seAsociaBienEnParcela(parcela))
+
+		plantaDebil = new SojaTransgenica(2001, 1)
+		assert.notThat(plantaDebil.seAsociaBienEnParcela(parcela))
+	}
+
+	test "una planta se asocia bien a una parcela ecológica vacía que le sea ideal" {
+		var parcela = new ParcelaEcologica(3, 3, 6)
+		var planta
+		
+		planta = new Menta(2001, 1)
+		assert.that(planta.seAsociaBienEnParcela(parcela))
+	
+	 	planta = new Hierbabuena(2001, 1)
+		assert.that(planta.seAsociaBienEnParcela(parcela))
+
+		planta = new Soja(2001, 0.4)
+		assert.that(planta.seAsociaBienEnParcela(parcela))
+	
+		planta = new Quinoa(2010, 2, 5)
+		assert.that(planta.seAsociaBienEnParcela(parcela))
+
+		planta = new SojaTransgenica(2001, 1)
+		assert.notThat(planta.seAsociaBienEnParcela(parcela))
+		assert.notThat(parcela.esIdealParaPlanta(planta))
 	}
 }

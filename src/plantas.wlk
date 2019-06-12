@@ -22,6 +22,10 @@ class Planta {
 	
 	method esParcelaIdeal(unaParcela)
 	
+	method seAsociaBienEnParcela(unaParcela) {
+		return unaParcela.seAsociaBienPlanta(self)
+	}
+	
 }
 
 class Menta inherits Planta {
