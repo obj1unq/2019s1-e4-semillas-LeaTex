@@ -35,6 +35,14 @@ class Parcela {
 		return unaPlanta.esParcelaIdeal(self)
 	}
 	method seAsociaBienPlanta(unaPlanta) { return false }
+	
+	method porcentajeDePlantasBienAsociadas() {
+		if (plantas.isEmpty()) { return 0 }
+		else { return self.plantasBienAsociadas().size() / plantas.size() }
+	}
+	method plantasBienAsociadas() {
+		return plantas.filter({ p => self.seAsociaBienPlanta(p) })
+	}
 }
 
 class ParcelaEcologica inherits Parcela {
