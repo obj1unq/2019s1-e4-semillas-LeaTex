@@ -1,0 +1,24 @@
+import inta.*
+import parcelas.*
+import plantas.*
+
+describe "tests para estadísticas de INTA" {
+
+	test "si no tiene parcelas, el promedio de plantas es cero" {
+
+		assert.equals(inta.promedioDePlantas(), 0)
+
+	}
+	
+	test "si tiene una o más parcelas sin plantas, el promedio es cero" {
+		inta.agregarParcela(new ParcelaEcologica(10,10,10))
+		assert.equals(inta.promedioDePlantas(), 0)
+
+		inta.agregarParcela(new ParcelaIndustrial(10,10,10))
+		assert.equals(inta.promedioDePlantas(), 0)
+	}
+	
+	test "si no tiene parcelas, no hay autosustentables" {
+		assert.equals(inta.parcelaMasAutosustentable(), null)
+	}
+}
